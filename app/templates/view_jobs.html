@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Jobs{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Jobs</h1>
+    <a href="#" class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#jobForm">
+        + Add Job
+      </a>
+      
+      <div class="collapse" id="jobForm">
+        <form method="POST">
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            {{ form.client_id.label(class="form-label") }}
+            {{ form.client_id(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            {{ form.service_type.label(class="form-label") }}
+            {{ form.service_type(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            {{ form.date.label(class="form-label") }}
+            {{ form.date(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            {{ form.start_time.label(class="form-label") }}
+            {{ form.start_time(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            {{ form.end_time.label(class="form-label") }}
+            {{ form.end_time(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            {{ form.cost.label(class="form-label") }}
+            {{ form.cost(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            {{ form.status.label(class="form-label") }}
+            {{ form.status(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            {{ form.job_notes.label(class="form-label") }}
+            {{ form.job_notes(class="form-control", rows="3") }}
+          </div>
+          <button type="submit" class="btn btn-success">Save Job</button>
+        </form>
+      </div>
+      

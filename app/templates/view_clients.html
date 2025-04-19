@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Clients{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-users me-2"></i>Clients</h1>
+    <a href="{{ url_for('main.add_client') }}" class="btn btn-success">
+      <i class="fas fa-user-plus me-1"></i> Add New Client
+    </a>
+  </div>
+
+  <!-- Clients Table -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      {% if clients.items %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Contact</th>
+              <th>Address</th>
+              <th>Notes</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for client in clients.items %}
+            <tr>
+              <td>
+                <strong>{{ client.name }}</strong><br>
+                {% if client.business_name %}
+                <small class="text-muted">{{ client.business_name }}</small>
+                {% endif %}
+              </td>
+              <td>
+                <div>{{ client.phone }}</div>
+                {% if client.email %}
+                <small class="text-muted">{{ client.email }}</small>
+                {% endif %}
+              </td>
+              <td>
+                {{ client.street_address }}<br>
+                {{ client.city }}, {{ client.state }} {{ client.zip_code }}
+              </td>
+              <td class="text-muted small">{{ client.general_notes|truncate(50) }}</td>
+              <td class="text-end">
+                <a href="{{ url_for('main.edit_client', id=client.id) }}" class="btn btn-sm btn-outline-primary me-1">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form method="POST" action="{{ url_for('main.delete_client', id=client.id) }}"
+                      style="display:inline;" onsubmit="return confirm('Delete this client?');">
+                  <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center p-3">
+        <div class="text-muted small">
+          Showing {{ clients.page }} of {{ clients.pages }} pages
+        </div>
+        <div>
+          {% if clients.has_prev %}
+          <a href="{{ url_for('main.clients', page=clients.prev_num) }}" class="btn btn-sm btn-outline-secondary me-1">← Prev</a>
+          {% endif %}
+          {% if clients.has_next %}
+          <a href="{{ url_for('main.clients', page=clients.next_num) }}" class="btn btn-sm btn-outline-secondary">Next →</a>
+          {% endif %}
+        </div>
+      </div>
+
+      {% else %}
+      <div class="p-4 text-center text-muted">
+        <i class="fas fa-user-friends fa-3x mb-3"></i>
+        <p class="mb-1">No clients found.</p>
+        <a href="{{ url_for('main.add_client') }}" class="btn btn-success mt-2">
+          <i class="fas fa-plus-circle me-1"></i> Add Your First Client
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

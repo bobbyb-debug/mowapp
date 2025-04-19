@@ -1,0 +1,13 @@
+<form method="POST">
+    <!-- Other job fields here -->
+
+    <h3>Select Services:</h3>
+    {% for service in services %}
+        <div>
+            <input type="checkbox" name="services" value="{{ service.id }}">
+            <label>{{ service.name }}</label>
+        </div>
+    {% endfor %}
+
+    <button type="submit">Add Job</button>
+</form>

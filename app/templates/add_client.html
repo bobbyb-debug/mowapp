@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Add Client{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1><i class="fas fa-user-plus me-2"></i>Add Client</h1>
+  <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+    {{ form.hidden_tag() }}
+
+    <!-- Basic Info -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-id-card me-2"></i>Basic Information
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.name.label(class="form-label") }} <span class="text-danger">*</span>
+            {{ form.name(class="form-control", required=True, type="text", id="nameField", aria_describedby="nameHelp") }}
+            <div id="nameHelp" class="invalid-feedback">Please provide client name</div>
+          </div>
+
+          <div class="col-md-6">
+            {{ form.business_name.label(class="form-label") }}
+            {{ form.business_name(class="form-control", type="text") }}
+          </div>
+
+          <div class="col-12">
+            {{ form.photo.label(class="form-label") }}
+            {{ form.photo(class="form-control", accept="image/png, image/jpeg") }}
+            <small class="text-muted">JPG/PNG only, max 5MB</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Address Info -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-map-marker-alt me-2"></i>Address Information
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-12">
+            {{ form.street_address.label(class="form-label") }}
+            {{ form.street_address(class="form-control", placeholder="123 Main St") }}
+          </div>
+
+          <div class="col-md-6">
+            {{ form.city.label(class="form-label") }}
+            {{ form.city(class="form-control") }}
+          </div>
+
+          <div class="col-md-3">
+            {{ form.state.label(class="form-label") }}
+            {{ form.state(class="form-control", maxlength="2", placeholder="MO") }}
+          </div>
+
+          <div class="col-md-3">
+            {{ form.zip_code.label(class="form-label") }}
+            {{ form.zip_code(class="form-control", maxlength="10", placeholder="65737") }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-phone-alt me-2"></i>Contact Information
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.phone.label(class="form-label") }} <span class="text-danger">*</span>
+            {{ form.phone(class="form-control", required=True, type="tel", placeholder="417-555-1234", id="phoneField", aria_describedby="phoneHelp") }}
+            <div id="phoneHelp" class="invalid-feedback">Please provide phone number</div>
+          </div>
+
+          <div class="col-md-6">
+            {{ form.alt_phone.label(class="form-label") }}
+            {{ form.alt_phone(class="form-control", type="tel", placeholder="417-555-5678") }}
+          </div>
+
+          <div class="col-12">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", type="email", placeholder="client@example.com") }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Info -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-briefcase me-2"></i>Business Information
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.tax_id.label(class="form-label") }}
+            {{ form.tax_id(class="form-control", placeholder="XX-XXXXXXX") }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-sticky-note me-2"></i>Notes
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          {{ form.billing_notes.label(class="form-label") }}
+          {{ form.billing_notes(class="form-control", rows="3", placeholder="Special billing instructions...") }}
+        </div>
+
+        <div class="mb-0">
+          {{ form.general_notes.label(class="form-label") }}
+          {{ form.general_notes(class="form-control", rows="3", placeholder="General client notes...") }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-between">
+      <a href="{{ url_for('main.clients') }}" class="btn btn-secondary">
+        <i class="fas fa-times me-1"></i> Cancel
+      </a>
+      <button type="submit" class="btn btn-success">
+        <i class="fas fa-save me-1"></i> Save Client
+      </button>
+    </div>
+  </form>
+
+  <!-- JS Fallback Warning -->
+  <noscript>
+    <div class="alert alert-warning mt-3">
+      JavaScript is disabled in your browser. Form validation will not work without it.
+    </div>
+  </noscript>
+</div>
+
+<!-- JS: Bootstrap validation -->
+<script>
+(() => {
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>
+{% endblock %}

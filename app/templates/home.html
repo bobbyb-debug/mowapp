@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to MowApp{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-leaf me-2 text-success"></i>Welcome to MowApp</h1>
+    <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-primary">
+      <i class="fas fa-tachometer-alt me-1"></i> Go to Dashboard
+    </a>
+  </div>
+
+  <div class="row g-4">
+    <!-- Overview Card -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <i class="fas fa-chart-line me-2"></i>Today's Overview
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled mb-0">
+            <li><strong>Jobs Scheduled:</strong> {{ jobs_today|length }}</li>
+            <li><strong>Pending Invoices:</strong> ${{ pending_invoices_total }}</li>
+            <li><strong>Miles Tracked:</strong> {{ miles_today }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <i class="fas fa-bolt me-2"></i>Quick Actions
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <a href="{{ url_for('main.add_client') }}" class="btn btn-outline-success">
+              <i class="fas fa-user-plus me-1"></i> Add Client
+            </a>
+            <a href="{{ url_for('main.add_job') }}" class="btn btn-outline-success">
+              <i class="fas fa-calendar-plus me-1"></i> Schedule Job
+            </a>
+            <a href="{{ url_for('main.expenses') }}" class="btn btn-outline-success">
+              <i class="fas fa-file-invoice-dollar me-1"></i> Log Expense
+            </a>
+            <a href="{{ url_for('main.mileage') }}" class="btn btn-outline-success">
+              <i class="fas fa-car-side me-1"></i> Log Mileage
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Jobs or Notices -->
+  <div class="mt-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-secondary text-white">
+        <i class="fas fa-briefcase me-2"></i>Next Scheduled Jobs
+      </div>
+      <div class="card-body">
+        {% if upcoming_jobs %}
+          <ul class="list-group">
+            {% for job in upcoming_jobs %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ job.date.strftime('%b %d') }} – <strong>{{ job.client.name }}</strong> ({{ job.service_type }})
+                <span class="badge bg-{{ 'warning' if job.status == 'Pending' else 'success' }}">
+                  {{ job.status }}
+                </span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">No upcoming jobs scheduled.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

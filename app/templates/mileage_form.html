@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{% if mileage %}Edit{% else %}Add{% endif %} Mileage{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+      <i class="fas fa-car-side me-2"></i>
+      {% if mileage %}Edit Mileage{% else %}Log Mileage{% endif %}
+    </h1>
+    <a href="{{ url_for('main.mileage') }}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i> Back to Mileage Log
+    </a>
+  </div>
+
+  <form method="POST" class="needs-validation" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-route me-2"></i>Mileage Details
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.job_id.label(class="form-label") }}
+            {{ form.job_id(class="form-select") }}
+          </div>
+          <div class="col-md-3">
+            {{ form.date.label(class="form-label") }} <span class="text-danger">*</span>
+            {{ form.date(class="form-control", type="date", required=True) }}
+            <div class="invalid-feedback">Please select a valid date</div>
+          </div>
+
+          <div class="col-md-6">
+            {{ form.start_location.label(class="form-label") }}
+            {{ form.start_location(class="form-control") }}
+          </div>
+
+          <div class="col-md-6">
+            {{ form.end_location.label(class="form-label") }}
+            {{ form.end_location(class="form-control") }}
+          </div>
+
+          <div class="col-md-4">
+            {{ form.distance.label(class="form-label") }} <span class="text-danger">*</span>
+            <div class="input-group">
+              {{ form.distance(class="form-control", step="0.01", required=True) }}
+              <span class="input-group-text">mi</span>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            {{ form.rate.label(class="form-label") }}
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              {{ form.rate(class="form-control", step="0.01") }}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Vehicle</label>
+            <select class="form-select" name="vehicle">
+              <option value="Truck 1">Truck 1</option>
+              <option value="Van">Van</option>
+              <option value="Trailer">Trailer</option>
+              <option value="{{ form.vehicle.data }}" selected hidden>{{ form.vehicle.data }}</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            {{ form.purpose.label(class="form-label") }}
+            {{ form.purpose(class="form-control", placeholder="e.g. Job commute, supply run") }}
+          </div>
+
+          <div class="col-12">
+            <div class="form-check form-switch">
+              {{ form.is_billable(class="form-check-input", role="switch") }}
+              {{ form.is_billable.label(class="form-check-label") }}
+            </div>
+          </div>
+
+          <div class="col-12">
+            <p class="text-muted mt-2" id="calculated-cost">Mileage Cost: $0.00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-success">
+        <i class="fas fa-save me-1"></i> {% if mileage %}Update{% else %}Log{% endif %} Mileage
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', function (e) {
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+
+  function updateMileageCost() {
+    const dist = parseFloat(document.querySelector('[name="distance"]').value) || 0;
+    const rate = parseFloat(document.querySelector('[name="rate"]').value) || 0;
+    const cost = dist * rate;
+    document.getElementById('calculated-cost').textContent = `Mileage Cost: $${cost.toFixed(2)}`;
+  }
+
+  document.querySelector('[name="distance"]').addEventListener('input', updateMileageCost);
+  document.querySelector('[name="rate"]').addEventListener('input', updateMileageCost);
+  document.addEventListener('DOMContentLoaded', updateMileageCost);
+})();
+</script>
+{% endblock %}

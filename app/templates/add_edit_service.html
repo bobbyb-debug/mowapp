@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}{% if service %}Edit{% else %}Add{% endif %} Service{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+      <i class="fas fa-{{ 'edit' if service else 'plus' }} me-2"></i>
+      {% if service %}Edit{% else %}Add{% endif %} Service
+    </h1>
+    <a href="{{ url_for('main.services') }}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i> Back to Services
+    </a>
+  </div>
+
+  <form method="POST" class="needs-validation" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-cogs me-2"></i>Service Details
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.name.label(class="form-label") }} <span class="text-danger">*</span>
+            {{ form.name(class="form-control", required=True) }}
+            <div class="invalid-feedback">Please enter a service name.</div>
+          </div>
+
+          <div class="col-md-6">
+            {{ form.category.label(class="form-label") }}
+            {{ form.category(class="form-control") }}
+          </div>
+
+          <div class="col-md-6">
+            {{ form.base_price.label(class="form-label") }}
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              {{ form.base_price(class="form-control", step="0.01") }}
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            {{ form.estimated_duration.label(class="form-label") }}
+            <div class="input-group">
+              {{ form.estimated_duration(class="form-control", step="0.25") }}
+              <span class="input-group-text">hrs</span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            {{ form.skill_level.label(class="form-label") }}
+            {{ form.skill_level(class="form-select") }}
+          </div>
+
+          <div class="col-md-6">
+            {{ form.default_crew_size.label(class="form-label") }}
+            {{ form.default_crew_size(class="form-control", min=1) }}
+          </div>
+
+          <div class="col-12">
+            {{ form.required_certifications.label(class="form-label") }}
+            {{ form.required_certifications(class="form-control", rows=2) }}
+          </div>
+
+          <div class="col-12">
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control", rows=3) }}
+          </div>
+
+          <div class="col-12">
+            <div class="form-check form-switch">
+              {{ form.is_active(class="form-check-input") }}
+              {{ form.is_active.label(class="form-check-label") }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-success">
+        <i class="fas fa-save me-1"></i> {% if service %}Update{% else %}Save{% endif %} Service
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', function (e) {
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>
+{% endblock %}

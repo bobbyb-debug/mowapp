@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Edit Client{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Edit Client</h1>
+  <form method="POST" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.name.label(class="form-label") }}
+      {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""), placeholder="Enter client name") }}
+      {% for e in form.name.errors %}
+        <div class="invalid-feedback">{{ e }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="row g-2 mb-3">
+      <div class="col-md-4">
+        {{ form.street_address.label(class="form-label") }}
+        {{ form.street_address(class="form-control") }}
+      </div>
+      <div class="col-md-3">
+        {{ form.city.label(class="form-label") }}
+        {{ form.city(class="form-control") }}
+      </div>
+      <div class="col-md-2">
+        {{ form.state.label(class="form-label") }}
+        {{ form.state(class="form-control") }}
+      </div>
+      <div class="col-md-3">
+        {{ form.zip_code.label(class="form-label") }}
+        {{ form.zip_code(class="form-control") }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      {{ form.phone.label(class="form-label") }}
+      {{ form.phone(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.email.label(class="form-label") }}
+      {{ form.email(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.notes.label(class="form-label") }}
+      {{ form.notes(class="form-control", rows=2) }}
+    </div>
+    <div class="mb-3">
+      {{ form.photo.label(class="form-label") }}
+      {{ form.photo(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-success">
+      <i class="fas fa-save me-1"></i> Save Changes
+    </button>
+    <a href="{{ url_for('main.clients') }}" class="btn btn-secondary ms-2">
+      Cancel
+    </a>
+  </form>
+</div>
+{% endblock %}

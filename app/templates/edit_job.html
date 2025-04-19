@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Job{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-edit me-2"></i>Edit Job</h1>
+    <a href="{{ url_for('main.jobs') }}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i> Back to Jobs
+    </a>
+  </div>
+
+  <form method="POST" class="needs-validation" novalidate>
+    {{ form.hidden_tag() }}
+
+    <!-- Job Info -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-info-circle me-2"></i>Job Details
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.client_id.label(class="form-label") }} <span class="text-danger">*</span>
+            {{ form.client_id(class="form-select", required=True, autofocus=True) }}
+          </div>
+          <div class="col-md-6">
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control", required=True) }}
+          </div>
+          <div class="col-md-6">
+            {{ form.service_type.label(class="form-label") }}
+            {{ form.service_type(class="form-control", required=True) }}
+          </div>
+          <div class="col-md-3">
+            {{ form.date.label(class="form-label") }}
+            {{ form.date(class="form-control", type="date") }}
+          </div>
+          <div class="col-md-3">
+            {{ form.priority.label(class="form-label") }}
+            {{ form.priority(class="form-select") }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time & Cost -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-clock me-2"></i>Time & Cost
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-4">
+            {{ form.start_time.label(class="form-label") }}
+            {{ form.start_time(class="form-control", type="time") }}
+          </div>
+          <div class="col-md-4">
+            {{ form.end_time.label(class="form-label") }}
+            {{ form.end_time(class="form-control", type="time") }}
+          </div>
+          <div class="col-md-2">
+            {{ form.cost.label(class="form-label") }}
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              {{ form.cost(class="form-control") }}
+            </div>
+          </div>
+          <div class="col-md-2">
+            {{ form.estimated_cost.label(class="form-label") }}
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              {{ form.estimated_cost(class="form-control") }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status & Invoice -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-tags me-2"></i>Status
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            {{ form.status.label(class="form-label") }}
+            {{ form.status(class="form-select") }}
+          </div>
+          <div class="col-md-6">
+            {{ form.invoice_status.label(class="form-label") }}
+            {{ form.invoice_status(class="form-select") }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-list-check me-2"></i>Included Services
+      </div>
+      <div class="card-body">
+        <div class="row row-cols-1 row-cols-md-2 g-2">
+          {% for value, label in form.services.choices %}
+            <div class="col">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox"
+                       name="{{ form.services.name }}"
+                       id="service-{{ value }}" value="{{ value }}"
+                       {% if value in form.services.data %}checked{% endif %}>
+                <label class="form-check-label" for="service-{{ value }}">
+                  {{ label }}
+                </label>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes & Recurrence -->
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-sync-alt me-2"></i>Notes & Recurrence
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          {{ form.description.label(class="form-label") }}
+          {{ form.description(class="form-control", rows="3") }}
+        </div>
+        <div class="mb-3">
+          {{ form.internal_notes.label(class="form-label") }}
+          {{ form.internal_notes(class="form-control", rows="3") }}
+        </div>
+        <div class="form-check form-switch mb-3">
+          {{ form.is_recurring(class="form-check-input") }}
+          {{ form.is_recurring.label(class="form-check-label") }}
+        </div>
+        <div class="mb-3">
+          {{ form.recurrence_pattern.label(class="form-label") }}
+          {{ form.recurrence_pattern(class="form-control", placeholder="e.g., Every 2 weeks") }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="d-flex justify-content-end gap-2">
+      <a href="{{ url_for('main.jobs') }}" class="btn btn-secondary">
+        <i class="fas fa-times me-1"></i> Cancel
+      </a>
+      <button type="submit" class="btn btn-success">
+        <i class="fas fa-save me-1"></i> Save Changes
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>
+{% endblock %}

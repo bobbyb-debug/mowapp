@@ -1,0 +1,187 @@
+/* ----------------------------------------
+   MowApp Theme Variables (Light Default)
+   ---------------------------------------- */
+   :root {
+    --bg-color:        #f5f8fa;
+    --text-color:      #333;
+    --primary-color:   #2d6a4f;
+    --primary-dark:    #1b4332;
+    --accent-color:    #40916c;
+    --border-color:    #dee2e6;
+    --card-bg:         #ffffff;
+    --button-hover:    #1b4332;
+  }
+  
+  /* ----------------------------------------
+     Dark Mode Override (manual toggle)
+     ---------------------------------------- */
+  .dark-mode {
+    --bg-color:        #121212;
+    --text-color:      #f1f1f1;
+    --primary-color:   #74c69d;
+    --primary-dark:    #52b788;
+    --accent-color:    #95d5b2;
+    --border-color:    #2c2c2c;
+    --card-bg:         #1e1e1e;
+    --button-hover:    #40916c;
+  }
+  
+  /* ----------------------------------------
+     Base & Utility Styles
+     ---------------------------------------- */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin:    0;
+    padding:   0;
+    background-color: var(--bg-color);
+    color:           var(--text-color);
+    transition: background-color .3s, color .3s;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin:     0 auto;
+    padding:    20px;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background-color: var(--primary-color);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    color:       #fff;
+    text-decoration: none;
+    margin-right:  auto;
+  }
+  
+  .navbar a {
+    color:   #e9ecef;
+    margin-right: 15px;
+    text-decoration: none;
+  }
+  
+  .navbar a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Dark‑mode toggle */
+  #darkModeToggle {
+    background: transparent;
+    border:     1px solid #fff;
+    color:      #fff;
+    padding:    5px 10px;
+    border-radius: 4px;
+    cursor:     pointer;
+  }
+  
+  /* Alerts */
+  .alert {
+    margin-top: 10px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--accent-color);
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  /* Tables */
+  .table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  /* Cards */
+  .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    transition: background-color .3s, color .3s;
+  }
+  
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 10px 15px;
+    border: none;
+    background-color: var(--accent-color);
+    color:             #fff;
+    border-radius:     4px;
+    cursor:            pointer;
+    transition: background-color .2s;
+  }
+  
+  .btn:hover {
+    background-color: var(--button-hover);
+  }
+  
+  /* Forms */
+  form {
+    background-color: var(--card-bg);
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.03);
+    margin-top: 20px;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+  
+  /* Footer */
+  footer {
+    background-color: var(--primary-dark);
+    color:            #fff;
+    text-align:       center;
+    padding:          15px;
+    margin-top:       40px;
+  }
+  
+  /* Utility Spacing */
+  .mt-3 { margin-top:    1rem; }
+  .mt-4 { margin-top:    1.5rem; }
+  .mb-3 { margin-bottom: 1rem; }
+  .mb-4 { margin-bottom: 1.5rem; }
+  .text-center { text-align: center; }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 10px; }
+    .navbar  { flex-wrap: wrap; justify-content: center; }
+    .table th,
+    .table td { font-size: 14px; }
+    .btn       { width: 100%; margin-bottom: 10px; }
+  }
+  
