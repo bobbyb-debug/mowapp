@@ -1,6 +1,6 @@
+from flask import render_template, redirect, url_for
 from app.main import bp
 from app import db
-from flask import redirect, url_for
 
 @bp.route('/initdb')
 def initdb():
@@ -9,4 +9,4 @@ def initdb():
 
 @bp.route('/')
 def home():
-    return redirect(url_for('main.initdb'))
+    return redirect(url_for('main.initdb'))  # redirect to /initdb just for testing

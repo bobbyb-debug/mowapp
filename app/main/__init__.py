@@ -2,4 +2,4 @@ from flask import Blueprint
 
 bp = Blueprint('main', __name__)
 
-from app.main import routes  # ensure this is below the bp line
+from app.main import routes  # must be after bp is defined
