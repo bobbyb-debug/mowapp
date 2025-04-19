@@ -43,6 +43,11 @@ def create_app(config_class=Config):
     app.logger.setLevel(logging.INFO)
     app.logger.info('MowApp startup')
 
+@bp.route('/initdb')
+def initdb():
+    db.create_all()
+    return "<h3>✅ Database initialized successfully!</h3>"
+
     return app
 
 from app import models
