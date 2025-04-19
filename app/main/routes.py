@@ -1,24 +1,19 @@
-# app/routes.py
+# app/main/routes.py
+
 from datetime import datetime, timedelta
 from flask import (
     Blueprint, render_template, request, redirect,
-    url_for, flash, send_from_directory, jsonify, Response
+    url_for, flash, send_from_directory
 )
-from sqlalchemy import func, or_
+from sqlalchemy import func
 from werkzeug.utils import secure_filename
-from io import StringIO
 import os
-import csv
 
 from app import db
 from app.forms import ClientForm, JobForm, ExpenseForm, MileageForm, ServiceForm
 from app.forms import MATERIAL_SUBCATEGORIES, LABOR_SUBCATEGORIES
 from app.models import Client, Job, Expense, Mileage, Service
 from app.main import bp
-
-
-
-bp = Blueprint('main', __name__)
 
 UPLOAD_FOLDER = os.path.join('app', 'static', 'receipts')
 PHOTO_FOLDER = os.path.join('app', 'static', 'photos')
@@ -29,6 +24,34 @@ def allowed_file(filename):
 
 def get_monthly_timeframe():
     return datetime.now() - timedelta(days=30)
+
+# ─── One-time route to init database ─────────────
+@bp.route('/initdb')
+def initdb():
+    db.create_all()
+    return "<h3>✅ Database initialized successfully!</h3>"
+
+# ─── Home ─────────────────────────────────────────
+@bp.route('/')
+def home():
+    return redirect(url_for('main.dashboard'))
+
+@bp.route('/dashboard')
+def dashboard():
+    last_month = get_monthly_timeframe()
+    stats = {
+        'client_count': Client.query.count(),
+        'active_job_count': Job.query.filter(Job.status.in_(['Pending', 'In Progress'])).count(),
+        'total_revenue': db.session.query(func.sum(Job.cost)).filter(Job.status == 'Completed').scalar() or 0,
+        'total_expenses': db.session.query(func.sum(Expense.amount)).scalar() or 0,
+        'recent_jobs': Job.query.join(Client).order_by(Job.date.desc()).limit(5).all(),
+        'monthly_revenue': db.session.query(func.sum(Job.cost)).filter(Job.status == 'Completed', Job.date >= last_month).scalar() or 0,
+        'monthly_expenses': db.session.query(func.sum(Expense.amount)).filter(Expense.date >= last_month).scalar() or 0,
+        'top_services': db.session.query(Job.service_type, func.count(Job.id), func.sum(Job.cost)).group_by(Job.service_type).order_by(func.sum(Job.cost).desc()).limit(5).all()
+    }
+    return render_template('dashboard.html', **stats)
+
+# (Rest of your client/job/expense routes stay here — you can paste them back in below)
 
 # ─── Home ─────────────────────────────────────────────
 @bp.route('/')
