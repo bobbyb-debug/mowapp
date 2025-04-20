@@ -3,6 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from config import Config
+# Import routes for jobs, clients, and expenses
+from app.routes.jobs import jobs_bp
+from app.routes.clients import clients_bp
+from app.routes.expenses import expenses_bp
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -24,7 +28,11 @@ def create_app(config_class=Config):
     return app
 
 def register_error_handlers(app):
-    @app.errorhandler(404)
+    app.register_blueprint(jobs_bp)
+    app.register_blueprint(clients_bp)
+    app.register_blueprint(expenses_bp)
+
+    register_error_handlers(app)
     def not_found_error(error):
         return render_template('errors/404.html'), 404
 

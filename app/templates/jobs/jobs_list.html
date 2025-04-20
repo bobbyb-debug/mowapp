@@ -1,0 +1,7 @@
+<h1>Jobs List</h1>
+<ul>
+{% for job in jobs %}
+    <li>{{ job.name }}</li>
+{% endfor %}
+</ul>
+<a href="{{ url_for('jobs.new_job') }}">Add Job</a>

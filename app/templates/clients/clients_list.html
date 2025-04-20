@@ -1,0 +1,7 @@
+<h1>Clients List</h1>
+<ul>
+{% for client in clients %}
+    <li>{{ client.name }}</li>
+{% endfor %}
+</ul>
+<a href="{{ url_for('clients.new_client') }}">Add Client</a>
