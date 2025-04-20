@@ -1,16 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from app.models import Job
 from app import db
 
 jobs_bp = Blueprint('jobs', __name__, url_prefix='/jobs')
 
 @jobs_bp.route('/')
 def job_list():
+    from app.models import Job
     jobs = Job.query.all()
     return render_template('jobs/jobs_list.html', jobs=jobs)
 
 @jobs_bp.route('/new', methods=['GET', 'POST'])
 def new_job():
+    from app.models import Job
     if request.method == 'POST':
         job_name = request.form.get('job_name')
         if job_name:

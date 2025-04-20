@@ -1,16 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from app.models import Expense
 from app import db
 
 expenses_bp = Blueprint('expenses', __name__, url_prefix='/expenses')
 
 @expenses_bp.route('/')
 def expense_list():
+    from app.models import Expense
     expenses = Expense.query.all()
     return render_template('expenses/expenses_list.html', expenses=expenses)
 
 @expenses_bp.route('/new', methods=['GET', 'POST'])
 def new_expense():
+    from app.models import Expense
     if request.method == 'POST':
         description = request.form.get('description')
         amount = request.form.get('amount')

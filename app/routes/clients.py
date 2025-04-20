@@ -1,16 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from app.models import Client
 from app import db
 
 clients_bp = Blueprint('clients', __name__, url_prefix='/clients')
 
 @clients_bp.route('/')
 def client_list():
+    from app.models import Client
     clients = Client.query.all()
     return render_template('clients/clients_list.html', clients=clients)
 
 @clients_bp.route('/new', methods=['GET', 'POST'])
 def new_client():
+    from app.models import Client
     if request.method == 'POST':
         client_name = request.form.get('client_name')
         if client_name:
