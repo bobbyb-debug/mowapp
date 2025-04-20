@@ -1,7 +1,22 @@
 <h1>Jobs List</h1>
-<ul>
-{% for job in jobs %}
-    <li>{{ job.name }}</li>
-{% endfor %}
-</ul>
-<a href="{{ url_for('jobs.new_job') }}">Add Job</a>
+
+{% if jobs %}
+    <ul>
+        {% for job in jobs %}
+            <li>
+                {{ job.name }}
+                <ul>
+                    {% for service in job.services %}
+                        <li>{{ service.name }}</li>
+                    {% endfor %}
+                </ul>
+                <a href="{{ url_for('jobs.edit_job', job_id=job.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form method="POST" action="{{ url_for('jobs.delete_job', job_id=job.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No jobs available. <a href="{{ url_for('jobs.new_job') }}">Add a new job</a>.</p>
+{% endif %}

@@ -9,34 +9,34 @@
   <!-- Summary Cards -->
   <div class="row g-3 mb-4">
     <div class="col-md-3">
-      <div class="card shadow-sm border-success">
-        <div class="card-body text-success">
-          <h6 class="card-title text-uppercase">Monthly Revenue</h6>
-          <h3>${{ monthly_revenue | round(2) }}</h3>
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <h5 class="card-title">Monthly Revenue</h5>
+          <p class="card-text text-success">${{ "%.2f"|format(monthly_revenue) }}</p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card shadow-sm border-danger">
-        <div class="card-body text-danger">
-          <h6 class="card-title text-uppercase">Monthly Expenses</h6>
-          <h3>${{ monthly_expenses | round(2) }}</h3>
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <h5 class="card-title">Monthly Expenses</h5>
+          <p class="card-text text-danger">${{ "%.2f"|format(monthly_expenses) }}</p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card shadow-sm border-warning">
-        <div class="card-body text-warning">
-          <h6 class="card-title text-uppercase">Active Jobs</h6>
-          <h3>{{ active_job_count }}</h3>
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <h5 class="card-title">Active Jobs</h5>
+          <p class="card-text">{{ active_job_count }}</p>
         </div>
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card shadow-sm border-info">
-        <div class="card-body text-info">
-          <h6 class="card-title text-uppercase">Total Clients</h6>
-          <h3>{{ client_count }}</h3>
+      <div class="card text-center shadow">
+        <div class="card-body">
+          <h5 class="card-title">Total Clients</h5>
+          <p class="card-text">{{ client_count }}</p>
         </div>
       </div>
     </div>
@@ -45,91 +45,63 @@
   <!-- Top Services -->
   <div class="card mb-4">
     <div class="card-header bg-primary text-white">
-      <i class="fas fa-star me-2"></i>Top Services This Month
+      <h5 class="mb-0">Top Services This Month</h5>
     </div>
     <div class="table-responsive">
-      <table class="table table-sm table-striped mb-0">
-        <thead class="table-light">
+      <table class="table table-hover mb-0">
+        <thead>
           <tr>
             <th>Service</th>
             <th>Jobs</th>
-            <th>Revenue</th>
+            <th>Total Revenue</th>
           </tr>
         </thead>
         <tbody>
-          {% for service in top_services %}
+          {% for service, job_count, total_revenue in top_services %}
           <tr>
-            <td>{{ service[0] }}</td>
-            <td>{{ service[1] }}</td>
-            <td>${{ service[2] | round(2) }}</td>
+            <td>{{ service }}</td>
+            <td>{{ job_count }}</td>
+            <td>${{ "%.2f"|format(total_revenue) }}</td>
           </tr>
           {% else %}
-          <tr><td colspan="3" class="text-center text-muted">No services this month</td></tr>
+          <tr>
+            <td colspan="3" class="text-center">No services found.</td>
+          </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Quick Actions -->
-  <div class="mb-4 d-flex gap-2">
-    <a href="{{ url_for('main.jobs') }}" class="btn btn-outline-primary">
-      <i class="fas fa-plus"></i> Add Job
-    </a>
-    <a href="{{ url_for('main.expenses') }}" class="btn btn-outline-danger">
-      <i class="fas fa-receipt"></i> Log Expense
-    </a>
-    <a href="{{ url_for('main.clients') }}" class="btn btn-outline-info">
-      <i class="fas fa-user-plus"></i> New Client
-    </a>
-  </div>
-
-  <!-- Calendar Preview Placeholder -->
-  <div class="card mb-4">
-    <div class="card-header bg-primary text-white">
-      <i class="fas fa-calendar-alt me-2"></i>Upcoming Schedule
-    </div>
-    <div class="card-body text-muted text-center">
-      <p class="mb-0">Calendar integration coming soon!</p>
-    </div>
-  </div>
-
   <!-- Recent Jobs Table -->
   <div class="card">
-    <div class="card-header bg-primary text-white">
-      <i class="fas fa-briefcase me-2"></i>Recent Jobs
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0">Recent Jobs</h5>
     </div>
     <div class="table-responsive">
       <table class="table table-hover mb-0">
-        <thead class="table-light">
+        <thead>
           <tr>
+            <th>Job</th>
             <th>Client</th>
             <th>Service</th>
             <th>Date</th>
             <th>Status</th>
-            <th>Cost</th>
           </tr>
         </thead>
         <tbody>
           {% for job in recent_jobs %}
           <tr>
+            <td>{{ job.name }}</td>
             <td>{{ job.client.name }}</td>
             <td>{{ job.service_type }}</td>
             <td>{{ job.date.strftime('%Y-%m-%d') }}</td>
-            <td>
-              <span class="badge 
-                {% if job.status == 'Completed' %}bg-success
-                {% elif job.status == 'Pending' %}bg-warning text-dark
-                {% elif job.status == 'In Progress' %}bg-info
-                {% else %}bg-secondary
-                {% endif %}">
-                {{ job.status }}
-              </span>
-            </td>
-            <td>${{ job.cost | round(2) }}</td>
+            <td>{{ job.status }}</td>
           </tr>
           {% else %}
-          <tr><td colspan="5" class="text-center text-muted">No recent jobs</td></tr>
+          <tr>
+            <td colspan="5" class="text-center">No recent jobs found.</td>
+          </tr>
           {% endfor %}
         </tbody>
       </table>

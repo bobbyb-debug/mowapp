@@ -1,5 +1,37 @@
-<h1>Add Job</h1>
-<form method="POST">
-    <input type="text" name="job_name" placeholder="Job Name" required>
-    <button type="submit">Submit</button>
+<h1 class="mb-4">Add Job</h1>
+
+{% if errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<form method="POST" class="needs-validation" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        <label for="job_name" class="form-label">Job Name</label>
+        <input type="text" id="job_name" name="job_name" class="form-control" placeholder="Enter job name" required>
+        <div class="invalid-feedback">Please provide a job name.</div>
+    </div>
+
+    <h3>Select Services (optional):</h3>
+    {% for service in services %}
+        <div class="form-check">
+            <input type="checkbox" id="service-{{ service.id }}" name="services" value="{{ service.id }}" class="form-check-input">
+            <label for="service-{{ service.id }}" class="form-check-label">{{ service.name }}</label>
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </form>
+
+<h3 class="mt-5">Existing Jobs</h3>
+<ul>
+    {% for job in jobs %}
+        <li>{{ job.name }}</li>
+    {% endfor %}
+</ul>

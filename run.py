@@ -1,24 +1,15 @@
-from app import create_app
-import logging
-from logging.handlers import RotatingFileHandler
-import os
+from app import create_app, db
+from app.models import Job, Expense, Service
 
 app = create_app()
 
-if __name__ == "__main__":
-    app.debug = True
+# Force debug mode
+app.debug = True
+app.env = "development"
 
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'Job': Job, 'Expense': Expense, 'Service': Service}
 
-    file_handler = RotatingFileHandler('logs/mowapp.log', maxBytes=10240, backupCount=10)
-    file_handler.setFormatter(logging.Formatter(
-        '%(asctime)s [%(levelname)s] in %(module)s: %(message)s'
-    ))
-    file_handler.setLevel(logging.INFO)
-
-    app.logger.addHandler(file_handler)
-    app.logger.setLevel(logging.INFO)
-    app.logger.info('MowApp startup')
-
-    app.run(host="0.0.0.0", port=5000)
+if __name__ == '__main__':
+    app.run(debug=True)  # Explicitly enable debug mode
