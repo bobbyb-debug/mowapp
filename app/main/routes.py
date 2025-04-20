@@ -1,10 +1,10 @@
-from flask import render_template, redirect, url_for
+from flask import redirect, url_for
 from app.main import bp
 from app import db
 
 @bp.route('/')
 def home():
-    return redirect(url_for('main.initdb'))  # temporary: auto-redirect for testing
+    return redirect(url_for('main.initdb'))
 
 @bp.route('/initdb')
 def initdb():
