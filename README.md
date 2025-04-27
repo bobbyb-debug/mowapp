@@ -2,20 +2,31 @@
 
 MowApp helps lawn care businesses manage clients, track jobs, log expenses, mileage, and handle invoicing effortlessly.
 
+---
+
 ## 🚀 Features
 
-- **Job Management:** Schedule and track jobs.
-- **Client Database:** Store and manage client info easily.
-- **Expense & Mileage Tracking:** Log expenses and miles efficiently.
-- **Automated Testing:** Ensures reliability via `pytest` and CI integration.
-- **Simple UI:** Clean and intuitive layout.
+- ✅ **Job Management** – Schedule and track job status
+- ✅ **Client Database** – Save and organize customer info
+- ✅ **Expense & Mileage Tracking** – Know your costs and travel
+- ✅ **Recurring Jobs** – Handle repeat services automatically
+- ✅ **Invoicing System** – Track invoice status and generate billing
+- ✅ **Simple UI** – Clean and intuitive layout built with Flask-WTF
+- ✅ **Automated Testing** – Reliable tests via `pytest`
+- ✅ **GitHub Actions** – CI/CD pipeline for safety
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Python, Flask, SQLAlchemy, Flask-Migrate, Flask-WTF**
-- **SQLite** database
-- **Pytest** for testing
-- **GitHub Actions** for CI
+- **Backend:** Python, Flask, SQLAlchemy
+- **Database:** SQLite (easy to swap for PostgreSQL later)
+- **Forms:** Flask-WTF
+- **Migrations:** Flask-Migrate
+- **Testing:** Pytest
+- **CI/CD:** GitHub Actions
+
+---
 
 ## 📦 Setup & Installation
 

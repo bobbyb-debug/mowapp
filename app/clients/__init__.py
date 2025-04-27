@@ -1,7 +1,2 @@
-from flask import Blueprint
-
-bp = Blueprint('clients', __name__)
-
-@bp.route('/')
-def index():
-    return "Clients Blueprint"
+# app/clients/__init__.py
+# (leave this file completely empty or just add a comment)

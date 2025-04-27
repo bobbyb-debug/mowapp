@@ -1,16 +1,17 @@
-from flask import render_template, redirect, url_for, Blueprint
-from app import db
+# app/clients/routes.py
+from flask import Blueprint, render_template, redirect, url_for
 from app.forms import ClientForm
 from app.models import Client
+from app import db
 
-bp = Blueprint('clients', __name__)
+clients_bp = Blueprint('clients', __name__)
 
-@bp.route('/')
+@clients_bp.route('/')
 def view_clients():
     clients = Client.query.order_by(Client.name).all()
     return render_template('clients/view_clients.html', clients=clients)
 
-@bp.route('/add', methods=['GET', 'POST'])
+@clients_bp.route('/add', methods=['GET', 'POST'])
 def add_client():
     form = ClientForm()
     if form.validate_on_submit():
