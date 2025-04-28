@@ -1,6 +1,7 @@
-# 🌿 MowApp: Lawn & Landscaping Management
+# 🌿 MowApp: Lawn & Landscaping Management API
 
-MowApp helps lawn care businesses manage clients, track jobs, log expenses, mileage, and handle invoicing effortlessly.
+MowApp is a lightweight Flask backend that powers a lawn care business dashboard.  
+Manage clients, jobs, expenses, services, and invoicing — simple, efficient, and built to grow.
 
 ---
 
@@ -8,23 +9,26 @@ MowApp helps lawn care businesses manage clients, track jobs, log expenses, mile
 
 - ✅ **Job Management** – Schedule and track job status
 - ✅ **Client Database** – Save and organize customer info
-- ✅ **Expense & Mileage Tracking** – Know your costs and travel
+- ✅ **Expense & Mileage Tracking** – Log costs and travel
 - ✅ **Recurring Jobs** – Handle repeat services automatically
-- ✅ **Invoicing System** – Track invoice status and generate billing
-- ✅ **Simple UI** – Clean and intuitive layout built with Flask-WTF
-- ✅ **Automated Testing** – Reliable tests via `pytest`
-- ✅ **GitHub Actions** – CI/CD pipeline for safety
+- ✅ **Service Pricing Control** – Update service packages dynamically
+- ✅ **Invoice Generation** – Track invoice status and billing
+- ✅ **Simple API** – Flask routes ready for React frontend
+- ✅ **Deployment-Ready** – Optimized for Render.com
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Python, Flask, SQLAlchemy
-- **Database:** SQLite (easy to swap for PostgreSQL later)
+- **Backend:** Python, Flask
+- **Database:** SQLite (easy to swap for PostgreSQL)
+- **ORM:** SQLAlchemy
 - **Forms:** Flask-WTF
 - **Migrations:** Flask-Migrate
 - **Testing:** Pytest
-- **CI/CD:** GitHub Actions
+- **Authentication:** Flask-Login
+- **Cross-Origin Requests:** flask-cors
+- **Production:** Gunicorn + Render Procfile
 
 ---
 

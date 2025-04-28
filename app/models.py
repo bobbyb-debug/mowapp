@@ -1,6 +1,9 @@
-from app.extensions import db
+# app/models.py
 
-# Association table for many-to-many between Job and Service
+from datetime import datetime
+from app import db
+
+# Association table for many-to-many relationship between Job and Service
 job_services = db.Table(
     'job_services',
     db.Column('job_id', db.Integer, db.ForeignKey('job.id'), primary_key=True),
@@ -78,12 +81,12 @@ class Job(db.Model):
 
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date, nullable=False)
-    amount = db.Column(db.Float, nullable=False)
-    description = db.Column(db.Text)
-    category = db.Column(db.String(64))
-    subcategory = db.Column(db.String(64))
-    notes = db.Column(db.Text)
+    job_id = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
+    category = db.Column(db.String(50))
+    description = db.Column(db.String(255))
+    amount = db.Column(db.Float)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    receipt_filename = db.Column(db.String(255))
 
     def to_dict(self):
         return {
